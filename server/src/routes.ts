@@ -42,7 +42,51 @@ routes.post('/projetos', async (request, response) =>{
         };
     })
     await knex('proj_itens').insert(projItens);
+    return response.json({sucess: true});
 
+});
+
+routes.post('/aerogeradores', async (request, response) =>{
+    const{
+        vi_vento,
+        vf_vento,
+        raio,
+        k_somb,
+        inercia_turbina,
+        inercia_gerador,
+        atrito_turbina,
+        atrito_gerador,
+        k_torcao,
+        n_polos,
+        freq_rotacao,
+        r_estator,
+        l_rotor,
+        proj_itens   
+    } = request.body;
+
+    //const trx = await knex.transaction();
+    
+    const aeroProjItens = proj_itens.map((proj_id:number) =>{
+        return{
+            vi_vento,
+            vf_vento,
+            raio,
+            k_somb,
+            inercia_turbina,
+            inercia_gerador,
+            atrito_turbina,
+            atrito_gerador,
+            k_torcao,
+            n_polos,
+            freq_rotacao,
+            r_estator,
+            l_rotor,
+            proj_id
+        };
+    })
+
+    await knex('aerogeradores').insert(aeroProjItens);
+    
     return response.json({sucess: true});
 
 });
