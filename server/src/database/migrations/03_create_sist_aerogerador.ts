@@ -18,8 +18,12 @@ export async function up(knex: Knex){
         table.decimal('r_estator');
         table.decimal('l_rotor');
 
-        table.integer('proj_id')
+        table.integer('aeroProjIds')
         .references('proj_id')
+        .inTable('proj_itens');
+
+        table.integer('projItensIds')
+        .references('id')
         .inTable('proj_itens');
 
 
