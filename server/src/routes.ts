@@ -64,7 +64,6 @@ routes.post('/aerogeradores', async (request, response) =>{
         proj_itens
     } = request.body;
 
-    //const trx = await knex.transaction();
     const aeroCode =1;
 
     const subquery = await knex('aerogeradores')
@@ -76,35 +75,31 @@ routes.post('/aerogeradores', async (request, response) =>{
         .select('id')
         .where('item_id', aeroCode)
         .where('item_id', 'not in', subquery)
-        //.whereNotIn('id', function() {
-        //  this.select('projItensIds').from('aerogeradores');
             
-    var size = Object.keys(projItensIds).length;
+    var size = Object.keys(projItensIds).length;//salva o id do ultimo
     size=size-1;
 
-    const obg = Object.values(projItensIds[size]);
-    console.log("Id do item-projeto")
-    console.log(obg)
+    const id_item_num = Object.values(projItensIds[size]);
+    //console.log("Id do item-projeto")
+    //console.log(id_item_num)
 
     const subquery_2 = await knex('aerogeradores')
     .from('aerogeradores')
     .select('projItensIds');
 
-    const numero  = obg as unknown as number;
+    const numero  = id_item_num as unknown as number;
 
     var id_proj_aero = await knex('proj_itens')
         .from('proj_itens')
         .select('proj_id')
         .where('id', numero)
 
-    console.log('Id do projeto:');
-    console.log(id_proj_aero);
-    
+    //console.log('Id do projeto:');
+    //console.log(id_proj_aero);
 
-
-    const code = Object.values(id_proj_aero[0]);
-    console.log("number");
-    console.log(code);
+    const id_proj_numm = Object.values(id_proj_aero[0]);
+    //console.log("number");
+    //console.log(id_proj_numm);
 
     const aero_data = proj_itens.map((id:number) =>{
         return{
@@ -121,8 +116,8 @@ routes.post('/aerogeradores', async (request, response) =>{
             freq_rotacao,
             r_estator,
             l_rotor,
-            aeroProjIds: code,
-            projItensIds: obg
+            aeroProjIds: id_proj_numm,
+            projItensIds: id_item_num
         };
     })
 
