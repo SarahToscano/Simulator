@@ -39,6 +39,9 @@ class Aero_controller{
         const id_item_num = Object.values(projItensIds[size]);
         //console.log("Id do item-projeto")
         //console.log(id_item_num)
+
+        var id_item_str = JSON.stringify(id_item_num); 
+        const id_item_n = JSON.parse(id_item_str)[0];
     
         const subquery_2 = await knex('aerogeradores')
         .from('aerogeradores')
@@ -57,33 +60,32 @@ class Aero_controller{
         const id_proj_numm = Object.values(id_proj_aero[0]);
         //console.log("number");
         //console.log(id_proj_numm);
+        var id_proj_str = JSON.stringify(id_proj_numm); 
+        const id_proj_num = JSON.parse(id_proj_str)[0];
     
-        const aero_data = proj_itens.map((id:number) =>{
-            return{
-                vi_vento,
-                vf_vento,
-                raio,
-                k_somb,
-                inercia_turbina,
-                inercia_gerador,
-                atrito_turbina,
-                atrito_gerador,
-                k_torcao,
-                n_polos,
-                freq_rotacao,
-                r_estator,
-                l_rotor,
-                aeroProjIds: id_proj_numm,
-                projItensIds: id_item_num
-            };
-        })
-    
-        const serializedID = await knex('aerogeradores').insert(aero_data);
+        const dados = {
+            vi_vento,
+            vf_vento,
+            raio,
+            k_somb,
+            inercia_turbina,
+            inercia_gerador,
+            atrito_turbina,
+            atrito_gerador,
+            k_torcao,
+            n_polos,
+            freq_rotacao,
+            r_estator,
+            l_rotor,
+            aeroProjIds:id_proj_num,
+            projItensIds: id_item_n
+        }
+        const serializedID = await knex('aerogeradores').insert(dados);
         const ids = serializedID[0];
 
         return response.json({
             id: ids,
-            ...aero_data
+            ...dados
         });
     
     }    
