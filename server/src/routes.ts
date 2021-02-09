@@ -64,9 +64,6 @@ routes.post('/aerogeradores', async (request, response) =>{
         proj_itens
     } = request.body;
 
-    var list_old_Id = [-1];
-
-    console.log(list_old_Id);
     //const trx = await knex.transaction();
     const aeroCode =1;
 
@@ -81,52 +78,32 @@ routes.post('/aerogeradores', async (request, response) =>{
         .where('item_id', 'not in', subquery)
         //.whereNotIn('id', function() {
         //  this.select('projItensIds').from('aerogeradores');
-        
-    console.log(projItensIds)
-      Outputs:
-      //select `id` from `proj_itens` where 
-      //`item_id` is equal to 'aeroCode'
-      //and  whereNotIn 'id' in 
-      //(select `projItensIds` from `aerogeradores`)
-    
-      
+            
+    var size = Object.keys(projItensIds).length;
 
-    
-    
-    //knex('accounts').where('id', 'not in', subquery)
-    //Outputs:
-    //select * from `accounts` where `id` not in (select `id`
-    //where not `votes` > 100 and `status` = 'active' or `name` = 'John')
+    const obg = Object.values(projItensIds[size-1]);
+    console.log("Id do item-projeto")
+    console.log(obg)
 
-    
-    var aeroProjIds_list = await knex('proj_itens')
+    const subquery_2 = await knex('aerogeradores')
+    .from('aerogeradores')
+    .select('projItensIds');
+
+    let numero  = obg as unknown as number;
+
+    var id_proj_aero = await knex('proj_itens')
         .from('proj_itens')
         .select('proj_id')
-        .where('item_id', aeroCode)
+        .where('id', numero)
 
-    var size = Object.keys(projItensIds).length;
-    var list_old_Id = [-1];
-
-    for (let i = 0; i < size; i++) {
-        var a = Object.values(projItensIds[i]);
-        if(i==0){
-            list_old_Id[i]=(Number(a));
-        }
-        else{
-            list_old_Id.push(Number(a));
-        }
-    }
-    console.log(Object.values(projItensIds[size-1]));
-    const obg = Object.values(projItensIds[size-1]);
-
-
+    console.log('Id do projeto:');
+    console.log(id_proj_aero);
     
 
 
-
-    const n = Object.keys(aeroProjIds_list).length;
-    const code = Object.values(aeroProjIds_list[0]);
-    console.log(code)
+    const code = Object.values(id_proj_aero[0]);
+    console.log("number");
+    console.log(code);
 
     const aero_data = proj_itens.map((id:number) =>{
         return{
@@ -153,7 +130,5 @@ routes.post('/aerogeradores', async (request, response) =>{
     return response.json({sucess: true});
 
 });
-
-
 
 export default routes;
