@@ -80,8 +80,9 @@ routes.post('/aerogeradores', async (request, response) =>{
         //  this.select('projItensIds').from('aerogeradores');
             
     var size = Object.keys(projItensIds).length;
+    size=size-1;
 
-    const obg = Object.values(projItensIds[size-1]);
+    const obg = Object.values(projItensIds[size]);
     console.log("Id do item-projeto")
     console.log(obg)
 
@@ -89,7 +90,7 @@ routes.post('/aerogeradores', async (request, response) =>{
     .from('aerogeradores')
     .select('projItensIds');
 
-    let numero  = obg as unknown as number;
+    const numero  = obg as unknown as number;
 
     var id_proj_aero = await knex('proj_itens')
         .from('proj_itens')
