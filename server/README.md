@@ -3,6 +3,7 @@ $ npm install ts-node-dev -D
 $ npm install knex
 $ npm install sqlite3
 $ npx knex migrate:latest --knexfile knexfile.ts migrate:latest
+$ npm install cors (módulos web de acesso)
 
 
 Executar:
